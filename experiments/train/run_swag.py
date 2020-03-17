@@ -8,6 +8,7 @@ import torch.nn.functional as F
 import torchvision
 import numpy as np
 
+sys.path.append('../..')
 from swag import data, models, utils, losses
 from swag.posteriors import SWAG
 
