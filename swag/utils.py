@@ -108,6 +108,7 @@ def train_epoch(
     }
 
 
+
 def eval(loader, model, criterion, cuda=True, regression=False, verbose=False):
     loss_sum = 0.0
     correct = 0.0

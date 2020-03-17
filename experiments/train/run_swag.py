@@ -11,6 +11,10 @@ import numpy as np
 sys.path.append('../..')
 from swag import data, models, utils, losses
 from swag.posteriors import SWAG
+import wandb
+
+# Change your username here!!
+wandb.init(project="swag-cifar100", entity='surajpai')
 
 parser = argparse.ArgumentParser(description="SGD/SWA training")
 parser.add_argument(
@@ -190,6 +194,7 @@ loaders, num_classes = data.loaders(
 print("Preparing model")
 print(*model_cfg.args)
 model = model_cfg.base(*model_cfg.args, num_classes=num_classes, **model_cfg.kwargs)
+wandb.watch(model)
 model.to(args.device)
 
 
@@ -359,6 +364,7 @@ for epoch in range(start_epoch, args.epochs):
     else:
         table = table.split("\n")[2]
     print(table)
+    wandb.log({"Test Accuracy": test_res["accuracy"], "Test Loss": test_res["loss"], "Train Accuracy": train_res["accuracy"], "Train Loss": train_res["loss"]})
 
 if args.epochs % args.save_freq != 0:
     utils.save_checkpoint(
